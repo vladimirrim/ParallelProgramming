@@ -9,8 +9,6 @@
 
 using namespace std;
 
-const size_t N_max = 1024;
-
 int main() {
     freopen("input.txt", "r", stdin);
     freopen("output.txt", "w", stdout);
@@ -88,7 +86,8 @@ int main() {
         kernel_gmem.setArg(2, dev_result);
         kernel_gmem.setArg(3, static_cast<int>(N));
         kernel_gmem.setArg(4, static_cast<int>(M));
-        queue.enqueueNDRangeKernel(kernel_gmem, cl::NullRange, cl::NDRange(N_max * N_max), cl::NDRange(block_size));
+        queue.enqueueNDRangeKernel(kernel_gmem, cl::NullRange, cl::NDRange(((N * N + block_size - 1) / block_size) * block_size),
+                                   cl::NDRange(block_size));
 
         queue.enqueueReadBuffer(dev_result, CL_TRUE, 0, sizeof(double) * N * N, &result[0]);
 
