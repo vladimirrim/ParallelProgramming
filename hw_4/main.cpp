@@ -15,7 +15,7 @@ size_t const BLOCK_SIZE = 512;
 
 
 int get_workers_count(int size, int block_size) {
-    return (size + block_size - 1) / size * block_size;
+    return ((int) ((size + block_size - 1) / block_size)) * block_size;
 }
 
 void run_copy(std::vector<double> &input, std::vector<double> &output,
